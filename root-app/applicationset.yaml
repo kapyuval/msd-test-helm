@@ -52,7 +52,7 @@ spec:
         targetRevision: 76.4.0  # example version
         helm:
           valueFiles:
-            - values/{{name}}.yaml
+            - values.yaml
       destination:
         name: in-cluster
         namespace: argocd
