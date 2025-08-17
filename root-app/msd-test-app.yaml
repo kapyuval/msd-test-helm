@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/kapyuval/msd-test-app.git
+    repoURL: https://github.com/kapyuval/msd-test-helm.git
     targetRevision: main
     path: charts/mst-test-app
     helm:
