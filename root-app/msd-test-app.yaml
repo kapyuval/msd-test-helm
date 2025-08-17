@@ -11,7 +11,7 @@ spec:
     path: charts/msd-test-app
     helm:
       valueFiles:
-        - ../../env/dev/values.yaml
+        - ../../apps/msd-test-app/dev/values.yaml
   destination:
     name: in-cluster
     namespace: argocd
