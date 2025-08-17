@@ -20,6 +20,10 @@ spec:
       labels:
         {{- include "msd-test-app.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: html-snippet-volume
+          configMap:
+            name: react-html-snippet
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -32,6 +36,10 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          volumeMounts:
+            - name: html-snippet-volume
+              mountPath: /etc/html-snippet
+              readOnly: true
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
