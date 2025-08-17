@@ -47,9 +47,12 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/kapyuval/msd-test-helm.git
-        targetRevision: main
-        path: "{{path}}"
+        repoURL: https://prometheus-community.github.io/helm-charts
+        chart: kube-prometheus-stack
+        targetRevision: 76.4.0  # example version
+        helm:
+          valueFiles:
+            - values/{{name}}.yaml
       destination:
         name: in-cluster
         namespace: argocd
