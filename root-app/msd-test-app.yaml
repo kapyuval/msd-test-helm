@@ -14,7 +14,7 @@ spec:
         - values.yaml
   destination:
     name: in-cluster
-    namespace: app1-namespace
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
