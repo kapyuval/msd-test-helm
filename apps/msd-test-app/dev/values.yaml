@@ -5,13 +5,13 @@
 replicaCount: 2
 
 image:
-  repository: index.docker.io/v1/kapyuval/msd-test-app
+  repository: kapyuval/msd-test-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.0.17"
 
 imagePullSecrets:
-  - name: regcred
+  - name: dockerhub-credentials
 nameOverride: ""
 fullnameOverride: ""
 
