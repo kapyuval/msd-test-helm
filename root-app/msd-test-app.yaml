@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/kapyuval/msd-test-helm.git
     targetRevision: main
-    path: charts/mst-test-app
+    path: charts/mst-test-app/dev
     helm:
       valueFiles:
         - values.yaml
