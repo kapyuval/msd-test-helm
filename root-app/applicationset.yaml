@@ -40,18 +40,18 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/kapyuval/msd-test-helm/apps.git
+        repoURL: https://github.com/kapyuval/msd-test-helm.git
         revision: main
         directories:
-          - path: keda
-          - path: prometheus
+          - path: apps/keda
+          - path: apps/prometheus
   template:
     metadata:
       name: '{{path.basename}}'
     spec:
       project: default
       source:
-        repoURL: https://github.com/kapyuval/msd-test-helm/apps.git
+        repoURL: https://github.com/kapyuval/msd-test-helm.git
         targetRevision: main
         path: '{{path}}'
       destination:
