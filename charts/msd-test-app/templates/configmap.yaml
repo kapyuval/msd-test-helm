@@ -6,7 +6,7 @@ data:
   snippet.html: |
     <div className="App">
       <header className="App-header">
-        <img src=https://pethelpful.com/.image/w_3840,q_auto:good,c_fill,ar_4:3/MTk2NzY3MjA5ODc0MjY5ODI2/top-10-cutest-cat-photos-of-all-time.jpg className="App-logo" alt="logo" />
+        <img src=https://d2ph5fj80uercy.cloudfront.net/06/cat1589.jpg className="App-logo" alt="logo" />
         <a
           className="App-link"
           href="https://reactjs.org"
