@@ -20,7 +20,7 @@ spec:
             serviceMonitorSelectorNilUsesHelmValues: false
   destination:
     name: in-cluster
-    namespace: monitoring
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
