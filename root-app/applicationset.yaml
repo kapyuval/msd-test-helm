@@ -56,6 +56,10 @@ spec:
         repoURL: https://github.com/kapyuval/msd-test-helm.git
         targetRevision: main
         path: '{{path}}'
+        directory:
+          recurse: true
+        kustomize:
+          enableHelm: true
       destination:
         name: in-cluster
         namespace: argocd
