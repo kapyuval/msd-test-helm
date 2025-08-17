@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kapyuval/msd-test-app.git
-    targetRevision: HEAD
-    path: charts/app1
+    targetRevision: main
+    path: charts/mst-test-app
     helm:
       valueFiles:
         - values.yaml
