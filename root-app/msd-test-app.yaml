@@ -13,7 +13,7 @@ spec:
       valueFiles:
         - values.yaml
   destination:
-    server: https://kubernetes.default.svc
+    server: in-cluster
     namespace: app1-namespace
   syncPolicy:
     automated:
