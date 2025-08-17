@@ -19,7 +19,7 @@ spec:
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
   destination:
-    server: in-cluster
+    name: in-cluster
     namespace: monitoring
   syncPolicy:
     automated:
