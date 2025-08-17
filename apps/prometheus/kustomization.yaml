@@ -1,6 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
-namespace: argocd
+
+metadata:
+  name: prometheus
+  namespace: argocd
+
 
 helmCharts:
   - name: prometheus
