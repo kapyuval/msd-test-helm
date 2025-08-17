@@ -2,9 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 helmCharts:
-  - name: keda-dev
+  - name: keda
     repo: https://kedacore.github.io/charts
     version: 2.17.1
-    releaseName: keda-dev
+    releaseName: keda
     namespace: argocd
     valuesFile: values.yaml
