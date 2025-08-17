@@ -19,7 +19,7 @@ spec:
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
   destination:
-    server: https://kubernetes.default.svc
+    server: in-cluster
     namespace: monitoring
   syncPolicy:
     automated:
