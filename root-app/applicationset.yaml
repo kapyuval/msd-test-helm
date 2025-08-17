@@ -20,7 +20,7 @@ spec:
         targetRevision: main
         path: apps/{{path.basename}}
       destination:
-        server: in-cluster
+        name: in-cluster
         namespace: '{{path.basename}}'
       syncPolicy:
         automated:
