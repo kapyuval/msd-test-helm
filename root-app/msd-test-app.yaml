@@ -11,7 +11,7 @@ spec:
     path: charts/mst-test-app
     helm:
       valueFiles:
-        - values.yaml
+        - ../../env/dev/values.yaml
   destination:
     name: in-cluster
     namespace: argocd
