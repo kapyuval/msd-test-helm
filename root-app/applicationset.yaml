@@ -20,7 +20,7 @@ spec:
         targetRevision: main
         path: apps/{{path.basename}}
       destination:
-        server: https://kubernetes.default.svc
+        server: in-cluster
         namespace: '{{path.basename}}'
       syncPolicy:
         automated:
