@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: https://github.com/kapyuval/msd-test-helm.git
     targetRevision: main
-    path: charts/mst-test-app/dev
+    path: charts/mst-test-app
     helm:
       valueFiles:
-        - values.yaml
+        - ../../env/dev/values.yaml
   destination:
     name: in-cluster
     namespace: argocd
