@@ -1,29 +1,18 @@
-# prometheus-appset-git.yaml
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: prometheus-git-appset
-  namespace: argocd
-spec:
-  generators:
-    - git:
-        repoURL: https://github.com/your-org/your-repo.git
-        revision: HEAD
-        directories:
-          - path: prometheus/*
-  template:
-    metadata:
-      name: prometheus-{{path.basename}}
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/your-org/your-repo.git
-        targetRevision: HEAD
-        path: "{{path}}"
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: monitoring
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - prometheus.local  # Change this to your actual domain
+    paths:
+      - /
+    pathType: Prefix
+    tls: []  # No TLS — disables HTTPS
+
+  service:
+    type: ClusterIP
+    port: 9090
