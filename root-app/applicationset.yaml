@@ -1,3 +1,37 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: applicationset
+#   namespace: argocd
+# spec:
+#   generators:
+#     - git:
+#         repoURL: https://github.com/kapyuval/msd-test-helm.git
+#         revision: main
+#         directories:
+#           - path: apps/prometheus/*
+#   template:
+#     metadata:
+#       name: prometheus-{{path.basename}}
+#     spec:
+#       project: default
+#       source:
+#         repoURL: https://prometheus-community.github.io/helm-charts
+#         targetRevision: 76.4.0  # example version
+#         helm:
+#           valueFiles:
+#             - values.yaml
+#       destination:
+#         name: in-cluster
+#         namespace: argocd
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - CreateNamespace=true
+
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -6,22 +40,20 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/kapyuval/msd-test-helm.git
+        repoURL: https://github.com/kapyuval/msd-test-helm/apps.git
         revision: main
         directories:
-          - path: apps/prometheus/*
+          - path: keda
+          - path: prometheus
   template:
     metadata:
-      name: prometheus-{{path.basename}}
+      name: '{{path.basename}}'
     spec:
       project: default
       source:
-        repoURL: https://prometheus-community.github.io/helm-charts
-        chart: kube-prometheus-stack
-        targetRevision: 76.4.0  # example version
-        helm:
-          valueFiles:
-            - values.yaml
+        repoURL: https://github.com/kapyuval/msd-test-helm/apps.git
+        targetRevision: main
+        path: '{{path}}'
       destination:
         name: in-cluster
         namespace: argocd
