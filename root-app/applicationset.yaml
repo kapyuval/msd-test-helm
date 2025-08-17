@@ -51,8 +51,6 @@ spec:
     spec:
       project: default
       source:
-        kustomize:
-          enableHelm: true
         repoURL: https://github.com/kapyuval/msd-test-helm.git
         targetRevision: main
         path: '{{path}}'
