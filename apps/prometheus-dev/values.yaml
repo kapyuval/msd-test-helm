@@ -1,18 +1,18 @@
-prometheus:
-  prometheusSpec:
-    serviceMonitorSelectorNilUsesHelmValues: false
+# prometheus:
+  # prometheusSpec:
+    # serviceMonitorSelectorNilUsesHelmValues: false
 
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-    hosts:
-      - prometheus.local  # Change this to your actual domain
-    paths:
-      - /
-    pathType: Prefix
-    tls: []  # No TLS — disables HTTPS
+  # ingress:
+    # enabled: true
+    # annotations:
+      # kubernetes.io/ingress.class: nginx
+    # hosts:
+      # - prometheus.local  # Change this to your actual domain
+    # paths:
+      # - /
+    # pathType: Prefix
+    # tls: []  # No TLS — disables HTTPS
 
-  service:
-    type: ClusterIP
-    port: 9090
+  # service:
+    # type: ClusterIP
+    # port: 9090
