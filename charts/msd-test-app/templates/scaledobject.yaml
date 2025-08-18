@@ -12,7 +12,7 @@ spec:
   triggers:
     - type: prometheus
       metadata:
-        serverAddress: http://prometheus-operated:9090
+        serverAddress: http://prometheus-operated.argocd.svc:9090
         metricName: msd_cpu_limit_reached_pods
         query: >
           count by (pod) (
