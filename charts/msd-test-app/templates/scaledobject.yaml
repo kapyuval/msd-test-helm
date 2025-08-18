@@ -1,0 +1,33 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: msd-cpu-scaler
+  namespace: argocd
+spec:
+  scaleTargetRef:
+    name: msd-test-app
+  minReplicaCount: 2
+  maxReplicaCount: 10
+  cooldownPeriod: 300
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated:9090
+        metricName: msd_cpu_limit_reached_pods
+        query: >
+          count by (pod) (
+            (
+              count by (pod) (
+                (
+                  rate(container_cpu_usage_seconds_total{container!="POD", image=~".*msd-test-app.*"}[5m])
+                  /
+                  kube_pod_container_resource_limits_cpu_cores{container!="POD"}
+                ) > 0.9
+              )
+              ==
+              count by (pod) (
+                kube_pod_container_resource_limits_cpu_cores{container!="POD", image=~".*msd-test-app.*"}
+              )
+            )
+          )
+        threshold: "1"
