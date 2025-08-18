@@ -20,8 +20,8 @@ spec:
         repoURL: https://github.com/kapyuval/msd-test-helm.git
         targetRevision: main
         path: '{{path}}'
-        kustomize:
-          enableHelm: true
+        # kustomize:
+        #   enableHelm: true
       destination:
         name: in-cluster
         namespace: argocd
