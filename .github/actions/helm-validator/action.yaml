@@ -37,13 +37,29 @@ runs:
         wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
         chmod +x /usr/local/bin/yq
 
-    - name: Set up CRD schemas for kubeconform
-      shell: bash
+    - name: Download and wrap KEDA ScaledObject CRD schema
       run: |
-        mkdir -p crds
-        curl -sSL https://raw.githubusercontent.com/kedacore/charts/refs/tags/v2.17.2/keda/templates/crds/crd-scaledobjects.yaml \
-          -o crd-scaledobjects.yaml
-        yq -o=json '.spec.versions[] | select(.name == "v1alpha1") | .schema.openAPIV3Schema' crd-scaledobjects.yaml > crds/keda.sh_v1alpha1_ScaledObject.json
+        # Fetch CRD from KEDA GitHub or your cluster
+        curl -sL https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml -o scaledobject-crd.yaml
+
+        # Extract the openAPIV3Schema using yq and jq
+        yq -o=json e '.spec.versions[] | select(.name == "v1alpha1") | .schema.openAPIV3Schema' scaledobject-crd.yaml > scaledobject-schema.json
+
+        # Wrap the schema into a kubeconform-compatible format
+        jq '{
+          "$schema": "http://json-schema.org/schema#",
+          "apiVersion": "keda.sh/v1alpha1",
+          "kind": "ScaledObject",
+          "title": "ScaledObject",
+          "type": "object",
+          "properties": {
+            "apiVersion": { "type": "string" },
+            "kind": { "type": "string" },
+            "metadata": { "type": "object" },
+            "spec": .properties.spec
+          },
+          "required": ["apiVersion", "kind", "metadata", "spec"]
+        }' scaledobject-schema.json > crds/keda.sh_v1alpha1_ScaledObject.json
         
     - name: Helm Lint
       shell: bash
