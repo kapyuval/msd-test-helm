@@ -1,18 +1,23 @@
-name: Helm Lint, Dry Run & Schema Validation
+name: Helm Validate Reusable Workflow
 
 on:
-  pull_request:
-    paths:
-      - 'charts/**'
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      chart-path:
+        required: true
+        type: string
+      release-name:
+        required: false
+        type: string
+        default: "test-release"
+      namespace:
+        required: false
+        type: string
+        default: "default"
 
 jobs:
-  helm-validation:
-    name: Helm Lint and Validate
+  validate:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,17 +34,17 @@ jobs:
           sudo mv kubeconform /usr/local/bin/
 
       - name: Helm lint
-        run: helm lint charts/mychart
+        run: helm lint ${{ inputs.chart-path }}
 
       - name: Helm dry run (template)
         run: |
-          helm template mychart charts/mychart \
-            --values charts/mychart/values.yaml \
-            --namespace default
+          helm template ${{ inputs.release-name }} ${{ inputs.chart-path }} \
+            --values ${{ inputs.chart-path }}/values.yaml \
+            --namespace ${{ inputs.namespace }}
 
       - name: Validate rendered templates with kubeconform
         run: |
-          helm template mychart charts/mychart \
-            --values charts/mychart/values.yaml \
-            --namespace default \
+          helm template ${{ inputs.release-name }} ${{ inputs.chart-path }} \
+            --values ${{ inputs.chart-path }}/values.yaml \
+            --namespace ${{ inputs.namespace }} \
             | kubeconform -strict -summary
