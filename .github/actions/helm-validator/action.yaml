@@ -59,6 +59,7 @@ runs:
     - name: Validate with kubeconform
       shell: bash
       run: |
+        cat crds/keda.sh_v1alpha1_ScaledObject.json
         helm template ${{ env.RELEASE_NAME }} ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
@@ -67,5 +68,5 @@ runs:
             -summary \
             -verbose \
             -schema-location default \
-            -schema-location "file://$(pwd)/crds" \
+            -schema-location "file://crds" \
             -kubernetes-version 1.27.0
