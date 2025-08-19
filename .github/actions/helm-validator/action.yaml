@@ -67,5 +67,5 @@ runs:
             -summary \
             -verbose \
             -schema-location default \
-            -schema-location file://crds \
+            -schema-location file://crds/keda.sh \
             -kubernetes-version 1.27.0
