@@ -48,7 +48,7 @@ runs:
     - name: Validate with kubeconform
       shell: bash
       run: |
-        helm template ${{ inputs.release-name }} ${{ inputs.chart-path }} \
+        helm template "$RELEASE_NAME" ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
           | kubeconform -strict -summary
