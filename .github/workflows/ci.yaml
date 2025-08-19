@@ -28,6 +28,7 @@ jobs:
   validate-charts:
     name: Run validation on all Helm charts
     runs-on: ubuntu-latest
+    needs: generate-matrix
     strategy:
       matrix:
         chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
