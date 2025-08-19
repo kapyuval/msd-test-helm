@@ -37,10 +37,10 @@ runs:
     - name: Set up CRD schemas for kubeconform
       shell: bash
       run: |
-        mkdir -p crds/keda
-        curl -sSL https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml \
-          -o crds/keda/keda.sh_scaledobjects.yaml
-
+        mkdir -p crds/keda.sh
+        curl -sSL https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml -o keda_scaledobject.yaml
+        yq -o=json '.spec.versions[] | select(.name == "v1") | .schema.openAPIV3Schema' keda_scaledobject.yaml > crds/keda.sh/ScaledObject.json
+        
     - name: Helm Lint
       shell: bash
       run: helm lint "${{ inputs.chart-path }}"
