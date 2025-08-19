@@ -62,7 +62,7 @@ jobs:
           
   # Versioning Job (Handles versioning strategy for the app)
   versioning:
-    needs: validate-charts
+    needs: [validate-charts,generate-matrix]
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.versioning.outputs.version }}
