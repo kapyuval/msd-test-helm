@@ -1,4 +1,4 @@
-name: Helm Chart Validator 
+name: Helm Chart Validate
 description: Lint and dry-run Helm charts
 
 inputs:
