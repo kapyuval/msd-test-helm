@@ -40,7 +40,7 @@ jobs:
         uses: ./.github/actions/helm-validator
         with:
           chart-path: ${{ matrix.chart }}
-          release-name: $(${{ matrix.chart }} | cut -d/ -f2)
+          release-name: ${{ matrix.chart }}
           namespace: default
 
   # PR Comment Job (Optional: to add checks and comments on PR)
