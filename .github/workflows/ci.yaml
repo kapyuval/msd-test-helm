@@ -9,13 +9,28 @@ on:
       - main
 
 jobs:
+  # Generate matrix for lsiting all the charts under charts/
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Find chart directories
+        id: set-matrix
+        run: |
+          charts=$(find charts -mindepth 1 -maxdepth 1 -type d | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "matrix=$charts"
+          echo "matrix=$charts" >> $GITHUB_OUTPUT
+
   validate-charts:
     name: Run validation on all Helm charts
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        chart:
-          - charts/msd-test-app
+        chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
       - name: Call reusable Helm validation workflow
         uses: ./.github/workflows/helm-validation.yml
