@@ -66,12 +66,17 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.versioning.outputs.version }}
+    strategy:
+      matrix:
+        chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Versioning
-        id: versioning
+        id: versioning - ${{ matrix.chart }}
       # Optionally, ensure 'build' job runs first if needed
         uses: ./.github/actions/versioning
+        with:
+          chartName: ${{ matrix.chart }}
         
