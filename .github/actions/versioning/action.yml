@@ -4,10 +4,6 @@ inputs:
   chartName:
     required: true
     type: string
-outputs:
-  version:
-    description: "Version"
-    value: ${{ steps.set_version.outputs.VERSION }}
 
 runs:
   using: 'composite'
@@ -26,7 +22,6 @@ runs:
       shell: bash
 
     - name: Increment version for release (if applicable)
-      id: set_version
       run: |
         if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
           echo "Bumping version"
