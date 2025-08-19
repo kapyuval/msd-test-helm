@@ -32,11 +32,16 @@ jobs:
     strategy:
       matrix:
         chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-    uses: ./.github/workflows/helm-validation.yaml
-      with:
-        chart-path: ${{ matrix.chart }}
-        release-name: test-${{ matrix.chart }}
-        namespace: argocd
+        
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Helm chart ${{ matrix.chart }}
+        uses: ./actions/helm-validate
+        with:
+          chart-path: ${{ matrix.chart }}
+          release-name: release-${{ matrix.chart }}
+          namespace: default
 
   # PR Comment Job (Optional: to add checks and comments on PR)
   pr-comment:
