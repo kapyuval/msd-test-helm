@@ -38,8 +38,9 @@ runs:
       shell: bash
       run: |
         mkdir -p crds/keda.sh
-        curl -sSL https://raw.githubusercontent.com/garethr/kubernetes-json-schema/master/v1.27.0-standalone-strict/ScaledObject.keda.sh.json \
-          -o crds/keda.sh/ScaledObject.json
+        curl -sSL https://raw.githubusercontent.com/kedacore/keda/main/deploy/crds/keda.keda.sh_scaledobjects.yaml \
+          -o scaledobject-crd.yaml
+        yq -o=json '.spec.versions[] | select(.name == "v1") | .schema.openAPIV3Schema' scaledobject-crd.yaml > crds/keda.sh/ScaledObject.json
         
     - name: Helm Lint
       shell: bash
