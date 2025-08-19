@@ -32,12 +32,7 @@ jobs:
     strategy:
       matrix:
         chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Call reusable Helm validation workflow
-        uses: ./.github/workflows/helm-validation.yaml
+      uses: ./.github/workflows/helm-validation.yaml
         with:
           chart-path: ${{ matrix.chart }}
           release-name: test-${{ matrix.chart }}
