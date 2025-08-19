@@ -16,7 +16,6 @@ jobs:
       matrix:
         chart:
           - charts/msd-test-app
-
     steps:
       - name: Call reusable Helm validation workflow
         uses: ./.github/workflows/helm-validation.yml
@@ -24,3 +23,47 @@ jobs:
           chart-path: ${{ matrix.chart }}
           release-name: test-${{ matrix.chart }}
           namespace: argocd
+
+  # PR Comment Job (Optional: to add checks and comments on PR)
+  pr-comment:
+    runs-on: ubuntu-latest
+    needs: validate-charts
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Add PR comment on success
+        run: |
+          if [[ "${{ needs.pr-validation.result }}" == "success" ]]; then
+            echo "PR validation successful!"
+          else
+            echo "PR validation failed. Please check the logs."
+          fi
+          
+  # # PR Validation Job (Runs on PRs)
+  # pr-validation:
+  #   needs: [validate-charts] # To make sure image is built properly as well
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: PR Validation
+  #     # Optionally, ensure 'build' job runs first if needed
+  #       uses: ./.github/actions/pr-validation
+
+  # Versioning Job (Handles versioning strategy for the app)
+  versioning:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.versioning.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Versioning
+        id: versioning
+      # Optionally, ensure 'build' job runs first if needed
+        uses: ./.github/actions/versioning
+        
