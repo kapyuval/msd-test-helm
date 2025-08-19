@@ -32,7 +32,7 @@ runs:
           echo "New version: $NEW_VERSION"
           echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
           echo "VERSION=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-          sed -i "s/^version: .*/version: $NEW_VERSION/" $CHART_FILE
+          sed -i "s/^version: .*/version: "$NEW_VERSION"/" $CHART_FILE
         else
           echo "Skipping version bump"
         fi
