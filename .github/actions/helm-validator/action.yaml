@@ -34,6 +34,9 @@ runs:
         curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz \
         | tar xz && sudo mv kubeconform /usr/local/bin/
 
+        wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        chmod +x /usr/local/bin/yq
+
     - name: Set up CRD schemas for kubeconform
       shell: bash
       run: |
@@ -56,12 +59,7 @@ runs:
     - name: Validate with kubeconform
       shell: bash
       run: |
-        # Get the actual group from Helm output
-        helm template "$RELEASE_NAME" "${{ inputs.chart-path }}" \
-          --values "${{ inputs.chart-path }}/values.yaml" \
-          --namespace "${{ inputs.namespace }}" \
-        | grep "apiVersion: "
-
+        ls crds/keda.sh/
         helm template ${{ env.RELEASE_NAME }} ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
