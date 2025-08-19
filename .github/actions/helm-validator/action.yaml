@@ -20,6 +20,7 @@ runs:
       shell: bash
       run: |
         NAME="$(basename "${{ inputs.chart-path }}")"
+        echo $RELEASE_NAME
         echo "RELEASE_NAME=$NAME" >> "$GITHUB_ENV"
 
     - name: Set up Helm
