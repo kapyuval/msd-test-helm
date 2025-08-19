@@ -34,6 +34,13 @@ runs:
         curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz \
         | tar xz && sudo mv kubeconform /usr/local/bin/
 
+    - name: Set up CRD schemas for kubeconform
+      shell: bash
+      run: |
+        mkdir -p crds/keda
+        curl -sSL https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml \
+          -o crds/keda/keda.sh_scaledobjects.yaml
+
     - name: Helm Lint
       shell: bash
       run: helm lint "${{ inputs.chart-path }}"
@@ -51,6 +58,9 @@ runs:
         helm template ${{ env.RELEASE_NAME }} ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
-          | kubeconform -strict -summary
-            --namespace ${{ inputs.namespace }} \
-            | kubeconform -strict -summary
+        | kubeconform \
+            -strict \
+            -summary \
+            -schema-location default \
+            -schema-location file://crds \
+            -kubernetes-version 1.27.0
