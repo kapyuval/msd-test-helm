@@ -1,1 +1,25 @@
+name: Validate All Helm Charts
 
+on:
+  pull_request:
+    paths:
+      - 'charts/**'
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-charts:
+    name: Run validation on all Helm charts
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart:
+          - charts/msd-test-app
+
+    steps:
+      - name: Call reusable Helm validation workflow
+        uses: ./.github/workflows/helm-validation.yml
+        with:
+          chart-path: ${{ matrix.chart }}
+          release-name: test-${{ matrix.chart }}
