@@ -20,6 +20,7 @@ runs:
       shell: bash
       run: |
         NAME="$(basename "${{ inputs.chart-path }}")"
+        echo $RELEASE_NAME
         echo "RELEASE_NAME=$NAME" >> "$GITHUB_ENV"
 
     - name: Set up Helm
@@ -40,7 +41,6 @@ runs:
     - name: Helm Dry Run Template
       shell: bash
       run: |
-        NAME="$(echo "${{ inputs.release-name }}" | cut -d/ -f2)"
         helm template "$RELEASE_NAME" "${{ inputs.chart-path }}" \
           --values "${{ inputs.chart-path }}/values.yaml" \
           --namespace "${{ inputs.namespace }}"
@@ -48,7 +48,7 @@ runs:
     - name: Validate with kubeconform
       shell: bash
       run: |
-        helm template ${{ inputs.release-name }} ${{ inputs.chart-path }} \
+        helm template "$RELEASE_NAME" ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
           | kubeconform -strict -summary
