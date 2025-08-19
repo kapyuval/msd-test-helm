@@ -73,8 +73,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Versioning
-        id: versioning - ${{ matrix.chart }}
+      - name: Versioning ${{ matrix.chart }}
       # Optionally, ensure 'build' job runs first if needed
         uses: ./.github/actions/versioning
         with:
