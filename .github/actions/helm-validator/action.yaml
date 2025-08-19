@@ -41,14 +41,14 @@ runs:
     - name: Helm Dry Run Template
       shell: bash
       run: |
-        helm template "$RELEASE_NAME" "${{ inputs.chart-path }}" \
+        helm template ${{ env.RELEASE_NAME }} "${{ inputs.chart-path }}" \
           --values "${{ inputs.chart-path }}/values.yaml" \
           --namespace "${{ inputs.namespace }}"
           
     - name: Validate with kubeconform
       shell: bash
       run: |
-        helm template "$RELEASE_NAME" ${{ inputs.chart-path }} \
+        helm template ${{ env.RELEASE_NAME }} ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
           | kubeconform -strict -summary
