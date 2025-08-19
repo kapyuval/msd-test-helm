@@ -33,6 +33,9 @@ jobs:
       matrix:
         chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Call reusable Helm validation workflow
         uses: ./.github/workflows/helm-validation.yml
         with:
