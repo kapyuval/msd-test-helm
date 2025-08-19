@@ -33,7 +33,7 @@ runs:
           MINOR_VERSION=$(echo "$VERSION" | cut -d. -f2)
           PATCH_VERSION=$(echo "$VERSION" | cut -d. -f3)
           PATCH_VERSION=$((PATCH_VERSION + 1))
-          NEW_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
+          NEW_VERSION=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
           echo "New version: $NEW_VERSION"
           echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
           echo "VERSION=$NEW_VERSION" >> "$GITHUB_OUTPUT"
