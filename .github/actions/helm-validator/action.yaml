@@ -59,7 +59,6 @@ runs:
     - name: Validate with kubeconform
       shell: bash
       run: |
-        cat crds/keda.sh/ScaledObject.json
         helm template ${{ env.RELEASE_NAME }} ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
