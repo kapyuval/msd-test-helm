@@ -28,21 +28,18 @@ runs:
       with:
         version: v3.14.0
 
-    - name: Install tools
+    - name: Install kubeconform
       shell: bash
       run: |
         curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz \
         | tar xz && sudo mv kubeconform /usr/local/bin/
 
-        wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-        chmod +x /usr/local/bin/yq
-
     - name: Set up CRD schemas for kubeconform
       shell: bash
       run: |
         mkdir -p crds/keda.sh
-        curl -sSL https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml -o keda_scaledobject.yaml
-        yq -o=json '.spec.versions[] | select(.name == "v1") | .schema.openAPIV3Schema' keda_scaledobject.yaml > crds/keda.sh/ScaledObject.json
+        curl -sSL https://raw.githubusercontent.com/garethr/kubernetes-json-schema/master/v1.27.0-standalone-strict/ScaledObject.keda.sh.json \
+          -o crds/keda.sh/ScaledObject.json
         
     - name: Helm Lint
       shell: bash
