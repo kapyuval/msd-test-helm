@@ -67,5 +67,5 @@ runs:
             -summary \
             -verbose \
             -schema-location default \
-            -schema-location file://crds/keda.sh \
+            -schema-location file://crds/keda.sh/ScaledObject.json \
             -kubernetes-version 1.27.0
