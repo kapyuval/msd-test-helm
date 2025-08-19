@@ -43,7 +43,7 @@ runs:
         mkdir -p crds/keda.sh
         curl -sSL https://raw.githubusercontent.com/kedacore/keda/refs/heads/main/config/crd/bases/keda.sh_scaledjobs.yaml \
           -o scaledobject-crd.yaml
-        yq -o=json '.spec.versions[] | select(.name == "v1") | .schema.openAPIV3Schema' scaledobject-crd.yaml > crds/keda.sh/ScaledObject.json
+        yq -o=json '.spec.versions[] | select(.name == "v1alpha1") | .schema.openAPIV3Schema' scaledobject-crd.yaml > crds/keda.sh/ScaledObject.json
         
     - name: Helm Lint
       shell: bash
