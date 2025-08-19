@@ -14,13 +14,6 @@ runs:
         git config --global user.name "GitHub Actions"
       shell: bash
 
-    - name: Get the current version
-      run: |
-        VERSION=$(git describe --tags --always)
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-        echo "Current Version: $VERSION"
-      shell: bash
-
     - name: Increment version for release (if applicable)
       run: |
         if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
