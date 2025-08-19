@@ -46,8 +46,7 @@ runs:
     - name: Commit and tag updated version if version was changed
       if: github.ref == 'refs/heads/main'
       run: |
-        git commit ${{ inputs.chartName }}/Chart.yaml
-        git commit -m "Bump version to ${{ env.VERSION }}"
+        git commit ${{ inputs.chartName }}/Chart.yaml -m "Bump version to ${{ env.VERSION }}"
         git tag -a "${{ env.VERSION }}" -m "Release version ${{ env.VERSION }}"
         git push && git push --tags
       shell: bash
