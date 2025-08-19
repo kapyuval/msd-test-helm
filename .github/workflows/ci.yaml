@@ -32,11 +32,11 @@ jobs:
     strategy:
       matrix:
         chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-      uses: ./.github/workflows/helm-validation.yaml
-        with:
-          chart-path: ${{ matrix.chart }}
-          release-name: test-${{ matrix.chart }}
-          namespace: argocd
+    uses: ./.github/workflows/helm-validation.yaml
+      with:
+        chart-path: ${{ matrix.chart }}
+        release-name: test-${{ matrix.chart }}
+        namespace: argocd
 
   # PR Comment Job (Optional: to add checks and comments on PR)
   pr-comment:
