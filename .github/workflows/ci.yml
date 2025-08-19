@@ -1,0 +1,77 @@
+name: Validate All Helm Charts
+
+on:
+  pull_request:
+    paths:
+      - 'charts/**'
+  push:
+    branches:
+      - main
+
+jobs:
+  # Generate matrix for lsiting all the charts under charts/
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Find chart directories
+        id: set-matrix
+        run: |
+          charts=$(find charts -mindepth 1 -maxdepth 1 -type d | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "matrix=$charts"
+          echo "matrix=$charts" >> $GITHUB_OUTPUT
+
+  validate-charts:
+    name: Run validation on all Helm charts
+    runs-on: ubuntu-latest
+    needs: generate-matrix
+    strategy:
+      matrix:
+        chart: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+        
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Helm chart ${{ matrix.chart }}
+        uses: ./.github/actions/helm-validator
+        with:
+          chart-path: ${{ matrix.chart }}
+          release-name: ${{ matrix.chart }}
+          namespace: default
+
+  # PR Comment Job (Optional: to add checks and comments on PR)
+  pr-comment:
+    runs-on: ubuntu-latest
+    needs: validate-charts
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Add PR comment on success
+        run: |
+          if [[ "${{ needs.pr-validation.result }}" == "success" ]]; then
+            echo "PR validation successful!"
+          else
+            echo "PR validation failed. Please check the logs."
+          fi
+          
+  # Versioning Job (Handles versioning strategy for the app)
+  versioning:
+    needs: validate-charts
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.versioning.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Versioning
+        id: versioning
+      # Optionally, ensure 'build' job runs first if needed
+        uses: ./.github/actions/versioning
+        
