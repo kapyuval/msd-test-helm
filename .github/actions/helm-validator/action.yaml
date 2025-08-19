@@ -40,10 +40,10 @@ runs:
     - name: Set up CRD schemas for kubeconform
       shell: bash
       run: |
-        mkdir -p crds/keda.sh
+        mkdir -p crds
         curl -sSL https://raw.githubusercontent.com/kedacore/keda/refs/heads/main/config/crd/bases/keda.sh_scaledjobs.yaml \
           -o scaledobject-crd.yaml
-        yq -o=json '.spec.versions[] | select(.name == "v1alpha1") | .schema.openAPIV3Schema' scaledobject-crd.yaml > crds/keda.sh/ScaledObject.json
+        yq -o=json '.spec.versions[] | select(.name == "v1alpha1") | .schema.openAPIV3Schema' scaledobject-crd.yaml > crds/keda.sh_v1alpha1_ScaledObject.json
         
     - name: Helm Lint
       shell: bash
@@ -59,6 +59,7 @@ runs:
     - name: Validate with kubeconform
       shell: bash
       run: |
+        ls crds/
         helm template ${{ env.RELEASE_NAME }} ${{ inputs.chart-path }} \
           --values ${{ inputs.chart-path }}/values.yaml \
           --namespace ${{ inputs.namespace }} \
@@ -67,5 +68,5 @@ runs:
             -summary \
             -verbose \
             -schema-location default \
-            -schema-location file://crds/keda.sh/ScaledObject.json \
+            -schema-location "file://crds" \
             -kubernetes-version 1.27.0
