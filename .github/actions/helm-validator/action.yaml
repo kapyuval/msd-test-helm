@@ -38,6 +38,7 @@ runs:
         chmod +x /usr/local/bin/yq
 
     - name: Download and wrap KEDA ScaledObject CRD schema
+      shell: bash
       run: |
         # Fetch CRD from KEDA GitHub or your cluster
         curl -sL https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml -o scaledobject-crd.yaml
