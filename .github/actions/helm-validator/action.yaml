@@ -65,6 +65,7 @@ runs:
         | kubeconform \
             -strict \
             -summary \
+            -verbose \
             -schema-location default \
             -schema-location file://crds \
             -kubernetes-version 1.27.0
