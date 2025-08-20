@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: react-html-snippet
 data:
-  snippet.html: |
+  snippet.html: |-
     {{ .Values.htmlSnippet | indent 4 }}
