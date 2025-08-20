@@ -1,0 +1,49 @@
+name:  Versioning
+
+inputs:
+  chartName:
+    required: true
+    type: string
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up git config
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+      shell: bash
+
+    - name: Increment version for release (if applicable)
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          echo "Bumping version"
+          # Incrementing the patch version
+          CHART_FILE="${{ inputs.chartName }}/Chart.yaml"
+          VERSION_LINE=$(grep '^version:' "$CHART_FILE")
+          VERSION=$(echo $VERSION_LINE | cut -d: -f2 | tr -d ' ')
+          VERSION="${VERSION%\"}"; VERSION="${VERSION#\"}"
+          echo $VERSION
+          MAJOR_VERSION=$(echo $VERSION | cut -d. -f1)
+          MINOR_VERSION=$(echo $VERSION | cut -d. -f2)
+          PATCH_VERSION=$(echo $VERSION | cut -d. -f3)
+          PATCH_VERSION=$((PATCH_VERSION + 1))
+          NEW_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+          echo "New version: $NEW_VERSION"
+          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "VERSION=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          sed -i "s/^version: .*/version: \""$NEW_VERSION"\"/" $CHART_FILE
+        else
+          echo "Skipping version bump"
+        fi
+      shell: bash
+
+    - name: Commit and tag updated version if version was changed
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git commit ${{ inputs.chartName }}/Chart.yaml -m "Bump version to ${{ env.VERSION }}"
+        git tag -a "${{ env.VERSION }}" -m "Release version ${{ env.VERSION }}"
+        git push && git push --tags
+      shell: bash
