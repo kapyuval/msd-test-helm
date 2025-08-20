@@ -76,8 +76,9 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
   triggers:
-    serverAddress: "http://prometheus-operated.argocd.svc"
-
+    serverAddress: "http://prometheus-operated.argocd.svc:9090"
+    threshold: 1
+    
 nodeSelector: {}
 
 tolerations: []

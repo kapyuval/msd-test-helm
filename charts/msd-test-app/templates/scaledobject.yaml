@@ -6,8 +6,8 @@ metadata:
 spec:
   scaleTargetRef:
     name: {{ include "msd-test-app.fullname" . }}
-  minReplicaCount: {{ .Values.minReplicas }}
-  maxReplicaCount: {{ .Values.maxReplicas }}
+  minReplicaCount: {{ .Values.autoscaling.minReplicas }}
+  maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}
   cooldownPeriod: 300
   triggers:
     - type: prometheus
