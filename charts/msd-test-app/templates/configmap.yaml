@@ -4,4 +4,4 @@ metadata:
   name: react-html-snippet
 data:
   snippet.html: |-
-    {{ .Values.htmlSnippet | indent 4 }}
+{{ .Values.htmlSnippet | nindent 4 }}
