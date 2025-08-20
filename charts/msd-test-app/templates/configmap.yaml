@@ -4,16 +4,4 @@ metadata:
   name: react-html-snippet
 data:
   snippet.html: |
-    <div className="App">
-      <header className="App-header">
-        <img src=https://d2ph5fj80uercy.cloudfront.net/06/cat1589.jpg className="App-logo" alt="logo" />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    {{ .Values.htmlSnippet | indent 4 }}

@@ -84,3 +84,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+htmlSnippet: |
+  <div class="alert alert-info">
+    <strong>Info!</strong> This is a sample HTML snippet.
+  </div>
