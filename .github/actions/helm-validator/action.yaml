@@ -86,5 +86,4 @@ runs:
             -verbose \
             -schema-location default \
             -schema-location "./crds/keda.sh_v1alpha1_ScaledObject.json" \
-            --values "${{ inputs.chart-path }}/values.yaml" \
             -kubernetes-version 1.27.0
