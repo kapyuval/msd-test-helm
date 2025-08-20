@@ -12,7 +12,7 @@ spec:
   triggers:
     - type: prometheus
       metadata:
-        serverAddress: {{ .Values.autoscaling.triggers.serverAddress }}
+        serverAddress: "{{ .Values.autoscaling.triggers.serverAddress }}"
         metricName: msd_cpu_limit_reached_pods
         query: >
           count by (pod) (
