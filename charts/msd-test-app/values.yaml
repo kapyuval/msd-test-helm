@@ -76,7 +76,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
   triggers:
-    serverAddress: "example.svc:9090"
+    serverAddress: example.svc:9090
     threshold: 1
 
 nodeSelector: {}
