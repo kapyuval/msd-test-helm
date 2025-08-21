@@ -22,7 +22,7 @@ spec:
                   rate(container_cpu_usage_seconds_total{container!="POD", image=~".*{{ include "msd-test-app.fullname" . }}.*"}[5m])
                   /
                   kube_pod_container_resource_limits_cpu_cores{container!="POD"}
-                ) > 0.9
+                ) > 0.01
               )
               ==
               count by (pod) (
